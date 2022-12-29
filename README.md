@@ -3,18 +3,17 @@
 *Revised: Monday, December 26, 2022*
 
 A tutorial project for AWS Lambda in Golang 
-**EyeSpy** builds with Go 1.19
+**This tutorial project** builds with Go 1.19 on macOS for AWS Lambda/Linux
 
 - [AWS Lambda in GoLang — The Ultimate Guide](https://www.softkraft.co/aws-lambda-in-golang/)
 
 
-
 ### What is this repository for? ###
 
-This is a tutorial project.
+This is a tutorial project which demonstrates the use of the DynamoDB persistent store with AWS Lambda in Go.
 
-* AWS Lambda
-* AWS DynamoDB
+* [AWS Lambda](https://aws.amazon.com/lambda/?nc2=h_ql_prod_cp_lbd)
+* [Amazon DynamoDB](https://aws.amazon.com/dynamodb/)
 * Go
 * JSON
 
@@ -29,22 +28,40 @@ There
   `% mkdir build cmd pkg pkg/user pkg/handlers pkg/validators`
   `% git init`
 
-2. The tutorial has the remaining instructions.
+2. IMPORTANT BUILD NOTE: The tutorial has the remaining instructions, with one minor error. The author happens to be building on the same architecture as the AWS Lambda host (Linux/amd64). If your build system is somewhere else (say, macOS) you'll need to modify the build instruction, thusly:
+
+* % `GOARCH=amd64 GOOS=linux go build -o build/main cmd/main.go`   [or, to build and zip it in one step…]
+* % `GOARCH=amd64 GOOS=linux go build -o build/main cmd/main.go && zip -jrm build/main.zip build/main`
 
 
-3. Here's where our AWS console lives…
+### Testing it ###
+You can poke it with a web browser and it will provide the list of entires in the database as JSON
+
+1. add a new user…
+% `curl --header "Content-Type: application/json" --request POST --data '{"email": "jonnyquest@example.com", "firstName": "Jonny", "lastName": "Quest"}' https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+{"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"}
+
+2. list all users…
+% `curl -X GET https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+[{"email":"s.karasiewicz@softkraft.co","firstName":"Sebastian","lastName":"Karasiewicz"},{"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"},{"email":"gary.w.longsine@gmail.com","firstName":"Gary","lastName":"Longsine"}]
+
+3. fetch the record of a user given email address…
+% `curl -X GET https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging\?email\=jonnyquest@example.com`
+{"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"}
+
+4. update a user record
+`% curl --header "Content-Type: application/json" --request PUT --data '{"email": "s.karasiewicz@softkraft.co", "firstName": "Sebas", "lastName": "Karasiewicz"}' https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+
+5. delete a user…
+% `curl -X DELETE https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging\?email\=s.karasiewicz@softkraft.co`
+
+
+### Resources ### 
+[AWS Toolkit for JetBrains](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 
 
 ### Contribution guidelines ###
 
 * This isn't a living project so there are no contribution guidelines.
 * [Markdown Cheatsheet](https://www.markdownguide.org/cheat-sheet/)
-
-### Who do I talk to? ###
-
-* Gary W. Longsine <gary@illumineX.com>
-* Other illumineX developers <devel@illumineX.com>
-
-
-
 
