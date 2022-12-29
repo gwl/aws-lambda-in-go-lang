@@ -34,33 +34,35 @@ The instructions in the tutorial are pretty good. These two additional bits migh
 
 
 ### Testing it ###
-You can poke it with a web browser and it will provide the list of entires in the database as JSON
+You can poke it with a web browser and it will provide the list of entires in the database as JSON.
+
+You'll need to replace the URL with your own.
 
 1. add a new user…
 
-* % `curl --header "Content-Type: application/json" --request POST --data '{"email": "jonnyquest@example.com", "firstName": "Jonny", "lastName": "Quest"}' https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+* % `curl --header "Content-Type: application/json" --request POST --data '{"email": "jonnyquest@example.com", "firstName": "Jonny", "lastName": "Quest"}' https://YOUR-Lambda-URL.execute-api.us-east-1.amazonaws.com/staging`
 
 {"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"}
 
 2. list all users…
 
-* % `curl -X GET https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+* % `curl -X GET https://YOUR-Lambda-URL.execute-api.us-east-1.amazonaws.com/staging`
 
-[{"email":"s.karasiewicz@softkraft.co","firstName":"Sebastian","lastName":"Karasiewicz"},{"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"},{"email":"gary.w.longsine@gmail.com","firstName":"Gary","lastName":"Longsine"}]
+[{"email":"s.karasiewicz@softkraft.co","firstName":"Sebastian","lastName":"Karasiewicz"},{"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"},{"email":"mork@example.com","firstName":"Mork","lastName":"FromOrk"}]
 
 3. fetch the record of a user given email address…
 
-* % `curl -X GET https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging\?email\=jonnyquest@example.com`
+* % `curl -X GET https://YOUR-Lambda-URL.execute-api.us-east-1.amazonaws.com/staging\?email\=jonnyquest@example.com`
 
 {"email":"jonnyquest@example.com","firstName":"Jonny","lastName":"Quest"}
 
 4. update a user record
 
-* `% curl --header "Content-Type: application/json" --request PUT --data '{"email": "s.karasiewicz@softkraft.co", "firstName": "Sebas", "lastName": "Karasiewicz"}' https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging`
+* `% curl --header "Content-Type: application/json" --request PUT --data '{"email": "s.karasiewicz@softkraft.co", "firstName": "Sebas", "lastName": "Karasiewicz"}' https://YOUR-Lambda-URL.execute-api.us-east-1.amazonaws.com/staging`
 
 5. delete a user…
 
-* % `curl -X DELETE https://4pztdyyu44.execute-api.us-east-1.amazonaws.com/staging\?email\=s.karasiewicz@softkraft.co`
+* % `curl -X DELETE https://YOUR-Lambda-URL.execute-api.us-east-1.amazonaws.com/staging\?email\=s.karasiewicz@softkraft.co`
 
 
 ### Resources ### 
